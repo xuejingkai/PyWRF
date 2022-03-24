@@ -1,4 +1,4 @@
-# WRF_post_processing_Scripts
+# PyWRF
 
 这个项目用于wrfout文件的后处理，对根目录下的文件夹做解释：
 - font：存放字体文件，可以自行更改需要的宋体和Times New Roman，也可以自行添加相关字体文件并对代码进行修改
