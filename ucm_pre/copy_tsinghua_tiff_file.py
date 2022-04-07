@@ -20,7 +20,7 @@ def copy_tiff_file(file_folder,to_folder,start_lat,end_lat,start_lon,end_lon,lat
     for lat in range(start_lat,end_lat+1,10):
         for lon in range(start_lon,end_lon+1,10):
             try:
-                filename=str(lon).zfill(3)+lon_ori+str(lat).zfill(2)+lat_ori+".tif"
+                filename=str(lon)+lon_ori+"_"+str(lat)+lat_ori+".tif"
                 file = os.path.join(file_folder, filename)
                 file_to_path = os.path.join(to_folder, filename)
                 shutil.copyfile(file, file_to_path)
@@ -31,8 +31,6 @@ def copy_tiff_file(file_folder,to_folder,start_lat,end_lat,start_lon,end_lon,lat
 
 
 if __name__ == '__main__':
-    file_folder = r'D:\Data\WRF-Chem Files\Land Cover Data\QingHua_Landuse_2017v1'
-    file_folder = r'D:\new'
-    to_folder = r'D:\Data\WRF-Chem Files\Land Cover Data\QingHua_Landuse_2017v1\china_simulation\origin'
-    to_folder = r'D:\new\tiff'
+    file_folder = r'D:\Data\WRF-Chem_Files\Land_Cover_Data\TsingHua_Landuse_2015v1'
+    to_folder = r'D:\Data\WRF-Chem_Files\UCM_file\Landuse\Origin_Tsinghua'
     copy_tiff_file(file_folder,to_folder,20,70,50,140)

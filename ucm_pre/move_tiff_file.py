@@ -24,6 +24,6 @@ def move_file(dir_path, to_path):
 
 
 if __name__ == '__main__':
-    dir_path = r'D:\Data\WRF-Chem Files\Land Cover Data\Globeland30-2010'
-    to_path = r'D:\Data\WRF-Chem Files\Land Cover Data\Globeland30-2010-UCM\Tiff'
+    dir_path = r'D:\Data\WRF-Chem_Files\Land_Cover_Data\TsingHua_Landuse_2015v1'
+    to_path = r'D:\Data\WRF-Chem_Files\UCM_file\Landuse\Origin_Tsinghua'
     move_file(dir_path, to_path)

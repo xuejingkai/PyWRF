@@ -1,14 +1,14 @@
-import sys
-sys.path.append("lib")
-from Interpolate import interpolate,calculate_wind_direction
-import Readtime
+# 将wrf输出值插值到需要的格点上
+
+from lib.Interpolate import interpolate,calculate_wind_direction
+import lib.Readtime as Readtime
 from wrf import getvar,to_np
 from openpyxl import Workbook
 import numpy as np
 import netCDF4 as nc
 
 #下面修改路径
-path='D:\wrf_simulation\\2meic\wrfout_d03_2016-07-21_12_2meic'
+path=r'D:\Data\WRF-Chem_Files\WRF-Chem_Simulation\ucm_modifiedParam\wrfout_d03_2016-07-21_00-00-00'
 
 #下面修改站点的纬度，经度，气象站点名字。气象站点名字可以带中文，主要就是为了excel表格的sheet书写
 point_list=[(31.1,121.37,"58361闵行"),(31.39692,121.45454,"58362宝山"),(31.37,121.25,"58365嘉定"),(31.67,121.50,"58366崇明"),
@@ -27,7 +27,8 @@ for i in point_list:
     ws.cell(1,7,"v")
 
 timelist=Readtime.get_ncfile_time(ncfile)
-for i in range(0,Readtime.get_ncfile_alltime(ncfile),3):
+timestep=2
+for i in range(0,Readtime.get_ncfile_alltime(ncfile),timestep):
     t2=to_np(getvar(ncfile,"T2",timeidx=i))-273.15
     rh2=to_np(getvar(ncfile,'rh2',timeidx=i))
     u10 = to_np(getvar(ncfile, "U10", timeidx=i))
@@ -40,18 +41,20 @@ for i in range(0,Readtime.get_ncfile_alltime(ncfile),3):
         print("u10,v10:" + str(float_u10) + "," + str(float_v10))
         float_ws = np.sqrt(float_v10**2+float_u10**2)
         float_wdir = calculate_wind_direction(float_u10,float_v10)
-        print(timelist[i])
-        print("u10,v10:"+str(float_u10)+","+str(float_v10)+","+str(float_ws)+","+str(float_wdir))
-        print(i/3)
+        print("当前时间为：{}".format(timelist[i]))
+        #print("u10,v10:"+str(float_u10)+","+str(float_v10)+","+str(float_ws)+","+str(float_wdir))
+        print("行数为：{}".format(int(i/timestep+2)))
         worksheet=wb[str(point_list[j][2])]
-        worksheet.cell(i/3+2,1,timelist[i])
-        worksheet.cell(i/3+2,2,float_t2)
-        worksheet.cell(i/3+2,3,float_rh2)
-        worksheet.cell(i/3+2,4,float_wdir)
-        worksheet.cell(i/3+2,5,float_ws)
-        worksheet.cell(i/3+2,6,float_u10)
-        worksheet.cell(i/3+2,7,float_v10)
-wb.save("气象信息.xlsx")
+        #wb[str(point_list[j][2])].cell(i/timestep+2,1).value = timelist[i]
+        worksheet.cell(int(i/timestep+2),1,timelist[i])
+        worksheet.cell(int(i/timestep+2),2,float_t2)
+        worksheet.cell(int(i/timestep+2),3,float_rh2)
+        worksheet.cell(int(i/timestep+2),4,float_wdir)
+        worksheet.cell(int(i/timestep+2),5,float_ws)
+        worksheet.cell(int(i/timestep+2),6,float_u10)
+        worksheet.cell(int(i/timestep+2),7,float_v10)
+wb.remove(wb['Sheet'])
+wb.save("气象信息-站点插值-ucm_modifiedParam.xlsx")
 
 
 

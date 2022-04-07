@@ -1,5 +1,7 @@
-# edited on 2022-03-10 16:39:40
-# 将大TIFF文件切割为多个小TIFF文件
+# -*- coding: utf-8 -*-
+# @Author: Fishercat
+# @Date  : 2022-03-26 01:28:26
+# @Desc  : 将大TIFF文件切割为多个小TIFF文件
 
 from osgeo import gdal
 import os
@@ -81,6 +83,6 @@ def crop_tiff(tiff_folder, to_folder, num_x, num_y):
 
 
 if __name__ == '__main__':
-    crop_tiff(r"D:\new\test_py",
-              r"D:\new\test_py2",
+    crop_tiff(r"D:\Data\WRF-Chem_Files\UCM_file\Landuse\Origin_Tsinghua",
+              r"D:\Data\WRF-Chem_Files\UCM_file\Landuse\Cropped_Tsinghua",
               4, 4)

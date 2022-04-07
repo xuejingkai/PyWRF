@@ -1,8 +1,6 @@
-import netCDF4 as nc
+
 from wrf import getvar,ll_to_xy,to_np,vertcross,CoordPair,interplevel
-from scipy.interpolate import Rbf
 import numpy as np
-import time
 
 def calculate_wind_direction_array(ua_array,va_array):
     wdir_array = np.zeros_like(ua_array,dtype=float)

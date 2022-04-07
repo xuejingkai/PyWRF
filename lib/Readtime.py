@@ -1,10 +1,11 @@
-#这个库禁止修改
+# edited on 2022-04-02 21:37:25
+# 用于获取nc文件的时间
 
 import netCDF4 as nc
 from wrf import getvar,to_np,ALL_TIMES
 from datetime import datetime,timedelta
 
-#这个函数用于获取nc文件的时间，同样不建议修改
+
 def get_ncfile_time(ncfile,timezone=0):
     timelist=[]
     time = str(to_np(getvar(ncfile, 'times'))) #这个输出的时间是nc文件中最开始的时间，例如2016-07-21T00:00:00.000000000

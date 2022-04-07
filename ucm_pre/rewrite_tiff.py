@@ -1,6 +1,13 @@
-# edited on 2022-03-23 17:52:59
-# 本文件用于将SNAP导出的NDVI的tiff数据进行修改，由于数据的经纬度混乱，因此需要重新写入
+# -*- coding: utf-8 -*-
+# @Author: Fishercat
+# @Date  : 2022-03-26 01:28:26
+# @Desc  : 本文件包含以下功能：
+#           - 将SNAP导出的NDVI的tiff数据以及下载的VIIRS数据进行修改，由于数据的经纬度混乱，因此需要重新写入
+#           - 创建城市化指数图
+#           - 修改原有的landuse数据，纳入31，32，33
 
+
+import numpy as np
 from osgeo import gdal, gdalconst
 
 
@@ -52,9 +59,10 @@ def warp_s2andvi(filename, outfilename):
     del tiff_new
     print("优化完成")
 
+
 def warp_viirs(filename, outfilename):
     gdal.Warp(outfilename, gdal.Open(filename, gdalconst.GA_ReadOnly), format='GTiff',
-              xRes=0.00025, yRes=0.00025, outputBounds=[121.03, 30.651, 122.03, 31.88],
+              xRes=0.00025, yRes=0.00025, outputBounds=[121.03, 30.70, 122.03, 31.50],
               outputType=gdal.GDT_Float32, resampleAlg=gdal.GRA_NearestNeighbour, targetAlignedPixels=True,
               dstSRS='EPSG:4326')
     print("Warp重采样，重投影完成，将优化TIFF")
@@ -74,11 +82,15 @@ def warp_viirs(filename, outfilename):
     del tiff_new
     print("优化完成")
 
+
+
+
 if __name__ == '__main__':
-    #rewrite_s2andvi(r"D:\Data\WRF-Chem_Files\Land_Cover_Data\Sentinel_2_data\6_NDVI\S2A_MSIL2A_20160305_ndvi.tif",
+    # rewrite_s2andvi(r"D:\Data\WRF-Chem_Files\Land_Cover_Data\Sentinel_2_data\6_NDVI\S2A_MSIL2A_20160305_ndvi.tif",
     #                r"D:\Data\WRF-Chem_Files\Land_Cover_Data\Sentinel_2_data\6_NDVI\S2A_MSIL2A_20160305_ndvi_rewrite.tif",
     #                31.50,30.70,121.03,122.03)
-    warp_s2andvi(r"D:\Data\WRF-Chem_Files\Land_Cover_Data\Sentinel_2_data\6_NDVI\S2A_MSIL2A_20161217_ndvi.tif",
-                 r"D:\Data\WRF-Chem_Files\Land_Cover_Data\Sentinel_2_data\6_NDVI\S2A_MSIL2A_20161217_ndvi_rewrite.tif")
-    #warp_viirs(r"D:\Data\WRF-Chem_Files\Viirs_data\2016\viirs_npp_201600.tif",
-    #             r"D:\Data\WRF-Chem_Files\Viirs_data\2016\viirs_npp_201600_rewrite.tif")
+    # warp_s2andvi(r"D:\Data\WRF-Chem_Files\Land_Cover_Data\Sentinel_2_data\6_NDVI\S2A_MSIL2A_20161217_ndvi.tif",
+    #             r"D:\Data\WRF-Chem_Files\Land_Cover_Data\Sentinel_2_data\6_NDVI\S2A_MSIL2A_20161217_ndvi_rewrite.tif")
+    warp_viirs(r"D:\Data\WRF-Chem_Files\Viirs_data\SVDNB_npp_20160101-20161231_75N060E_v10_c201807311200\SVDNB_npp_20160101-20161231_75N060E_vcm-orm_v10_c201807311200.avg_rade9.tif",
+               r"D:\Data\WRF-Chem_Files\Viirs_data\viirs_2016.tif")
+
