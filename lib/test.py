@@ -1,18 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
+x, y = np.meshgrid(np.arange(10),np.arange(10))
+z = np.sqrt(x**2 + y**2)
+cs = plt.contourf(x,y,z,levels=[2,3,4,8])
 
-x=np.linspace(-3,3,100)
-y=3*x+4
+proxy = [plt.Rectangle((0,0),1,1,fc = pc.get_facecolor()[0])
+    for pc in cs.collections]
 
-fig, (ax1, ax2) = plt.subplots(1, 2)
-
-ax1.plot(x, y)
-ax1.set_title("Normal Plot")
-
-ax2.plot(x, y)
-ax2.set_title("Reverted axes")
-#ax2.invert_xaxis()
-ax2.invert_yaxis()
-
-fig.tight_layout()
+plt.legend(proxy, ["range(2-3)", "range(3-4)", "range(4-6)"])
 plt.show()

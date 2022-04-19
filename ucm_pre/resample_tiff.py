@@ -21,6 +21,7 @@ def resample_tiff(input_folder,output_folder,resolution,method,type):
                   dstSRS='EPSG:4326')
         print("转换完成，耗时为：{}s".format(time.time()-start))
         print("开始优化")
+        del tiff_data
         rewrite_tiff = gdal.Open(os.path.join(output_folder,filename), gdalconst.GA_ReadOnly)
         retiff_width, retiff_height = rewrite_tiff.RasterXSize, rewrite_tiff.RasterYSize
         retiff_proj = rewrite_tiff.GetProjection()  # 得到数据集的投影信息
@@ -37,7 +38,43 @@ def resample_tiff(input_folder,output_folder,resolution,method,type):
         del tiff_new
         print("优化完成，耗时为：{}s".format(time.time() - start))
 
+def resample_lcz(inputfile,outputfile,resolution,method,type,bound1=301387.5,bound2=3385582.5,bound3=423277.5,bound4=3531292.5):
+    start=time.time()
+    tiff_data = gdal.Open(inputfile, gdalconst.GA_ReadOnly)
+    print("开始转换：" + inputfile)
+    gdal.Warp(outputfile, tiff_data, format='GTiff',
+              xRes=resolution, yRes=resolution,
+              outputBounds=[bound1,bound2,bound3,bound4],
+              outputType=type, resampleAlg=method, targetAlignedPixels=True,
+              srcSRS='EPSG:32651', dstSRS='EPSG:32651')
+    print("转换完成，耗时为：{}s".format(time.time()-start))
+    print("开始优化")
+    del tiff_data
+    rewrite_tiff = gdal.Open(outputfile, gdalconst.GA_ReadOnly)
+    retiff_width, retiff_height = rewrite_tiff.RasterXSize, rewrite_tiff.RasterYSize
+    retiff_proj = rewrite_tiff.GetProjection()  # 得到数据集的投影信息
+    retiff_geo = rewrite_tiff.GetGeoTransform()  # 得到数据集的地理仿射信息,是一个包含六个元素的元组
+    retiff_band = rewrite_tiff.GetRasterBand(1)
+    retiff_list = retiff_band.ReadAsArray()
+    del rewrite_tiff
+    driver = gdal.GetDriverByName('GTiff')
+    tiff_new = driver.Create(outputfile, xsize=retiff_width, ysize=retiff_height,
+                             bands=1, eType=type, options=["TILED=YES", "COMPRESS=LZW"])
+    tiff_new.SetProjection(retiff_proj)  # SetProjection写入投影im_proj
+    tiff_new.SetGeoTransform(retiff_geo)  # SetGeoTransform写入地理信息
+    tiff_new.GetRasterBand(1).WriteArray(retiff_list)
+    tiff_new.GetRasterBand(1).ComputeStatistics(True)   # 统计值
+    tiff_new.BuildOverviews('average', [2, 4, 8, 16, 32, 64, 128])  # 金字塔
+    del tiff_new
+    print("优化完成，耗时为：{}s".format(time.time() - start))
+
 if __name__ == '__main__':
-    resample_tiff(r"D:\Data\WRF-Chem_Files\UCM_file\Landuse\UCM_Shanghai\temp",
-                  r"D:\Data\WRF-Chem_Files\UCM_file\Landuse\Resample\Modified2_ucmfile\Tsinghua_9km",
-                  0.0625,gdal.GRA_Mode,gdal.GDT_UInt16)
+    #resample_tiff(r"D:\Data\WRF-Chem_Files\UCM_file\Landuse\UCM_Shanghai\temp",
+    #              r"D:\Data\WRF-Chem_Files\UCM_file\Landuse\Resample\Modified2_ucmfile\Tsinghua_9km",
+    #              0.0625,gdal.GRA_Mode,gdal.GDT_UInt16)
+    #resample_lcz(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\4_LCZ_Shanghai\L1TP\LCZC.tif",
+    #              r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\5_Resample\LCZC_resampled.tif",
+    #              100,gdal.GRA_Mode,gdal.GDT_UInt16)
+    resample_lcz(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\7_Combine\temp.tif",
+                  r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\7_Combine\tsinghua_2015_shanghai_100m.tif",
+                  100,gdal.GRA_Mode,gdal.GDT_UInt16,bound1=217500,bound2=3325000,bound3=450000,bound4=3580000)

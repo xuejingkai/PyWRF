@@ -10,4 +10,9 @@ def gettiffinfo(filepath):
     print(gdal.Info(tiff))
 
 if __name__ == '__main__':
-    gettiffinfo(r"D:\Data\WRF-Chem_Files\UCM_file\Viirs\viirs_2016_edited.tif")
+    #gettiffinfo(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\2_Prepare\4_resize\resize_L1TP_119038_20170308_b1.tif")
+    #gettiffinfo(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\2_Prepare\3_b10b11_resize\15m_118038_b10.tif")
+    #gettiffinfo(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\5_Resample\LCZC_resampled.tif")
+    gettiffinfo(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\7_Combine\tsinghua_2015_shanghai_100m_lcz_wgs84.tif")
+    #gettiffinfo(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\2_Prepare\2_radiometric\radio_L1TP_119038_20170308_b7.tif")
+    #gettiffinfo(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\4_Mosaic\L2SP\mosaic_shanghai_20170402.tif")

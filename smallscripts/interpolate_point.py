@@ -8,11 +8,11 @@ import numpy as np
 import netCDF4 as nc
 
 #下面修改路径
-path=r'D:\Data\WRF-Chem_Files\WRF-Chem_Simulation\ucm_modifiedParam\wrfout_d03_2016-07-21_00-00-00'
+path=r'D:\Data\WRF-Chem_Files\WRF-Chem_Simulation\noucm_defaultParam_modis\wrfout_d03_2016-07-21_00-00-00'
 
 #下面修改站点的纬度，经度，气象站点名字。气象站点名字可以带中文，主要就是为了excel表格的sheet书写
 point_list=[(31.1,121.37,"58361闵行"),(31.39692,121.45454,"58362宝山"),(31.37,121.25,"58365嘉定"),(31.67,121.50,"58366崇明"),
-            (31.05,121.7833,"58369南汇"),(31.13,121.12,"58461青浦"),(30.88,121.50,"58463奉贤")]
+            (31.05,121.7833,"58369南汇"),(31.13,121.12,"58461青浦"),(30.88,121.50,"58463奉贤"),(30.73,121.35,"58460金山")]
 ncfile=nc.Dataset(path)
 wb=Workbook()
 for i in point_list:
@@ -25,6 +25,9 @@ for i in point_list:
     ws.cell(1,5,"10m风速")
     ws.cell(1,6,"u")
     ws.cell(1,7,"v")
+    ws.cell(1,8,"LH")
+    ws.cell(1,9,"HFX")
+    ws.cell(1,10,"GRDFLX")
 
 timelist=Readtime.get_ncfile_time(ncfile)
 timestep=2
@@ -33,11 +36,17 @@ for i in range(0,Readtime.get_ncfile_alltime(ncfile),timestep):
     rh2=to_np(getvar(ncfile,'rh2',timeidx=i))
     u10 = to_np(getvar(ncfile, "U10", timeidx=i))
     v10 = to_np(getvar(ncfile,"V10",timeidx=i))
+    lh = to_np(getvar(ncfile,"LH",timeidx=i))
+    hfx = to_np(getvar(ncfile,"HFX",timeidx=i))
+    grdflx = to_np(getvar(ncfile,"GRDFLX",timeidx=i))
     for j in range(len(point_list)):
         float_t2 = interpolate(ncfile, t2, point_list[j][0], point_list[j][1], opt=0)
         float_rh2 = interpolate(ncfile, rh2, point_list[j][0], point_list[j][1], opt=0)
         float_u10 = interpolate(ncfile, u10, point_list[j][0], point_list[j][1], opt=0)
         float_v10 = interpolate(ncfile, v10, point_list[j][0], point_list[j][1], opt=0)
+        float_lh = interpolate(ncfile, lh, point_list[j][0], point_list[j][1], opt=0)
+        float_hfx = interpolate(ncfile, hfx, point_list[j][0], point_list[j][1], opt=0)
+        float_grdflx = interpolate(ncfile, grdflx, point_list[j][0], point_list[j][1], opt=0)
         print("u10,v10:" + str(float_u10) + "," + str(float_v10))
         float_ws = np.sqrt(float_v10**2+float_u10**2)
         float_wdir = calculate_wind_direction(float_u10,float_v10)
@@ -53,8 +62,11 @@ for i in range(0,Readtime.get_ncfile_alltime(ncfile),timestep):
         worksheet.cell(int(i/timestep+2),5,float_ws)
         worksheet.cell(int(i/timestep+2),6,float_u10)
         worksheet.cell(int(i/timestep+2),7,float_v10)
+        worksheet.cell(int(i/timestep+2),8,float_lh)
+        worksheet.cell(int(i/timestep+2),9,float_hfx)
+        worksheet.cell(int(i/timestep+2),10,float_grdflx)
 wb.remove(wb['Sheet'])
-wb.save("气象信息-站点插值-ucm_modifiedParam.xlsx")
+wb.save("气象信息-站点插值-noucm_modis.xlsx")
 
 
 

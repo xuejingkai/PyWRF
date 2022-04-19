@@ -8,7 +8,7 @@ from wrf import getvar, to_np
 
 from lib.Geo_Draw import Figure4wrf
 from lib.Readtime import get_ncfile_time
-from namelist_plaindraw import *
+from namelist_plaindraw_example import *
 
 
 def create_title(title_base, title_end_type, num, ncfile, time_zone):
@@ -90,9 +90,6 @@ for fig_num in range(int(len(timelist) / num_in_fig)):
             ncfile = nc.Dataset(path[0])
         # 设置标题
         axe_title = create_title(title[cur_num], title_end, num, ncfile, time_zone)
-        # 设置x轴label（如果存在）
-        if xlabellist != None:
-            xlabel = xlabellist[cur_num]
         # 开始进行绘制
         # 初始化图片
         fig.init_draw(ver_num, hor_num, cur_num + 1, axe_title, title_size, title_y)
@@ -101,10 +98,17 @@ for fig_num in range(int(len(timelist) / num_in_fig)):
         # 图形范围绘制
         fig.extent_draw(west_lon, east_lon, south_lat, north_lat, extra)
         # 网格绘制
-        fig.gridline_draw(west_lon, east_lon, south_lat, north_lat, major_interval_lon, major_interval_lat,
-                          minor_interval_lon, minor_interval_lat, labelsize, labelcolor, grid_lw=grid_lw,
-                          grid_color=grid_lc, grid_type=grid_type, ticklength=ticklength, xlabel=xlabel,
-                          xlabelsize=xlabelsize)
+        # 设置x轴label（如果存在）
+        if xlabellist != None:
+            xlabel = xlabellist[cur_num]
+            fig.gridline_draw(west_lon, east_lon, south_lat, north_lat, major_interval_lon, major_interval_lat,
+                              minor_interval_lon, minor_interval_lat, labelsize, labelcolor, grid_lw=grid_lw,
+                              grid_color=grid_lc, grid_type=grid_type, ticklength=ticklength, xlabel=xlabel,
+                              xlabelsize=xlabelsize)
+        else:
+            fig.gridline_draw(west_lon, east_lon, south_lat, north_lat, major_interval_lon, major_interval_lat,
+                              minor_interval_lon, minor_interval_lat, labelsize, labelcolor, grid_lw=grid_lw,
+                              grid_color=grid_lc, grid_type=grid_type, ticklength=ticklength)
         # 数据绘制
         lon = to_np(getvar(ncfile, 'lon'))
         lat = to_np(getvar(ncfile, 'lat'))

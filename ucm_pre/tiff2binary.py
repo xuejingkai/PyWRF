@@ -61,9 +61,9 @@ def landuse2binary_file(tiff_file, bil_folder):
     # 栅格矩阵的行数
     tif_nrows = tiff_data.RasterYSize
 
-    gdal.Translate(bil_folder + "00001" + "-" + str(tif_columns) + "." + "00001" + "-" + str(tif_nrows), tiff_file,
+    gdal.Translate(bil_folder + "00001" + "-" + str(tif_columns).zfill(5) + "." + "00001" + "-" + str(tif_nrows).zfill(5), tiff_file,
                    options=options_string)
-    print(bil_folder + "00001" + "-" + str(tif_columns) + "." + "00001" + "-" + str(tif_nrows) + "文件编译完成")
+    print(bil_folder + "00001" + "-" + str(tif_columns).zfill(5) + "." + "00001" + "-" + str(tif_nrows).zfill(5) + "文件编译完成")
 
 def get_tiff_detail(tiff_file):
     tiff_data = gdal.Open(tiff_file)
@@ -91,5 +91,7 @@ if __name__ == '__main__':
     #landuse2binary_folder(r"D:\Data\WRF-Chem_Files\UCM_file\Landuse\Reclassified_Tsinghua",
     #                      r"D:\Data\WRF-Chem_Files\UCM_file\Landuse\Binary_Tsinghua_small\\",
     #                      100,130,30,50)
-    landuse2binary_file(r"D:\Data\WRF-Chem_Files\UCM_file\Landuse\Resample\Modified2_ucmfile\Tsinghua_9km\120E_40N3_urb_threshold.tif",
-                        r"D:\Data\WRF-Chem_Files\UCM_file\Landuse\Resample\Modified2_ucmfile\Tsinghua_9km\\")
+    #landuse2binary_file(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\7_Combine\tsinghua_2015_shanghai_100m_lcz_wgs84.tif",
+    #                    r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\7_Combine\\")
+    landuse2binary_file(r"D:\Data\WRF-Chem_Files\Land_Use_Data\UCM_file\Landuse\Resample\22class_file\Tsinghua_1km_22class\120E_40N3.tif",
+                        r"D:\Data\WRF-Chem_Files\Land_Use_Data\UCM_file\Landuse\Resample\22class_file\Tsinghua_1km_22class\\")
