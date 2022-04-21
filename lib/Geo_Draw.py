@@ -18,7 +18,7 @@ Simsun = FontProperties(fname="../font/SimSun.ttf")
 Times = FontProperties(fname="../font/Times.ttf")
 mpl.rcParams['axes.unicode_minus'] = False
 config = {
-    "font.family":'serif',
+    "font.family": 'serif',
     "mathtext.fontset": 'stix',
     "font.serif": ['SimSun'],
 }
@@ -65,7 +65,7 @@ class Figure4wrf():
             self.axe = plt.subplot(ver_num, hor_num, cur_num, projection=ccrs.PlateCarree())
         if geo_opt == 1:
             self.axe = plt.subplot(ver_num, hor_num, cur_num)
-        #self.axe.set_title(Fontprocess.zhSimsun_enTNR(title), fontproperties=Simsun, fontsize=title_size, y=title_y)
+        # self.axe.set_title(Fontprocess.zhSimsun_enTNR(title), fontproperties=Simsun, fontsize=title_size, y=title_y)
         self.axe.set_title(Fontprocess.zhSimsun_enTNR(title), fontsize=title_size, y=title_y)
         print("图片初始化完成")
 
@@ -227,7 +227,7 @@ class Figure4wrf():
             cb = self.fig.colorbar(self.contourf, drawedges=drawedges_bool, orientation=hv_opt,
                                    spacing='uniform')  # orientation='vertical'
 
-        #cb.set_label(Fontprocess.zhSimsun_enTNR(labeltext), fontproperties=Simsun, fontsize=labelsize)
+        # cb.set_label(Fontprocess.zhSimsun_enTNR(labeltext), fontproperties=Simsun, fontsize=labelsize)
         cb.set_label(Fontprocess.zhSimsun_enTNR(labeltext), fontsize=labelsize)
         cb.ax.tick_params(length=colorbar_ticklength)
         # 下面两行是指定colorbar刻度字体的方法，绘图的坐标也同样适用
@@ -260,7 +260,7 @@ class Figure4wrf():
             cb.ax.set_yticklabels(bound)
         if hv_opt == 'horizontal':
             cb.ax.set_xticklabels(bound)
-        #cb.set_label(Fontprocess.zhSimsun_enTNR(labeltext), fontproperties=Simsun, fontsize=labelsize)
+        # cb.set_label(Fontprocess.zhSimsun_enTNR(labeltext), fontproperties=Simsun, fontsize=labelsize)
         cb.set_label(Fontprocess.zhSimsun_enTNR(labeltext), fontsize=labelsize)
         cb.ax.tick_params(length=colorbar_ticklength)
         # 下面两行是指定colorbar刻度字体的方法，绘图的坐标也同样适用
@@ -280,12 +280,24 @@ class Figure4wrf():
         else:
             cb = self.fig.colorbar(self.contour, drawedges=drawedges_bool, orientation=hv_opt,
                                    spacing='uniform')  # orientation='vertical'
-        #cb.set_label(Fontprocess.zhSimsun_enTNR(labeltext), fontproperties=Simsun, fontsize=labelsize)
+        # cb.set_label(Fontprocess.zhSimsun_enTNR(labeltext), fontproperties=Simsun, fontsize=labelsize)
         cb.set_label(Fontprocess.zhSimsun_enTNR(labeltext), fontsize=labelsize)
         cb.ax.tick_params(length=colorbar_ticklength)
         # 下面两行是指定colorbar刻度字体的方法，绘图的坐标也同样适用
         labels = cb.ax.get_xticklabels() + cb.ax.get_yticklabels()
         [label.set_fontproperties(FontProperties(fname="../font/Times.ttf", size=ticksize)) for label in labels]
+
+    def dot_draw(self, lon, lat, color='k', marker='o', markersize=4, label=None, zorder=1):
+        self.axe.plot(lon, lat, marker, color=color, markersize=markersize, label=label, zorder=zorder)
+
+    def line_draw(self, lon_s2e, lat_s2e, color='k', linestyle='-', linewidth=1, zorder=1):
+        self.axe.plot(lon_s2e, lat_s2e, color=color, linestyle=linestyle, linewidth=linewidth, zorder=zorder)
+
+    def legend_draw(self, dots, labels, loc, x_anchor, y_anchor, title=None, markerscale=0.7, labelspacing=1,
+                    fonttype="../font/Times.ttf", fontsize=12):
+        plt.legend(dots, labels, loc=loc, title=title, labelspacing=labelspacing, bbox_to_anchor=(x_anchor, y_anchor),
+                   markerscale=markerscale,
+                   prop=FontProperties(fname=fonttype, size=fontsize))
 
     def adjust_subplot(self, wspace, hspace):
         plt.subplots_adjust(wspace=wspace, hspace=hspace)
@@ -296,3 +308,6 @@ class Figure4wrf():
     def fig_show(self):
         self.fig.show()
         plt.show()
+
+    def get_lastaxe(self):
+        return self.axe

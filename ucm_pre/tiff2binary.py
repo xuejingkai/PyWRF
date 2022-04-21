@@ -93,5 +93,7 @@ if __name__ == '__main__':
     #                      100,130,30,50)
     #landuse2binary_file(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\7_Combine\tsinghua_2015_shanghai_100m_lcz_wgs84.tif",
     #                    r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\7_Combine\\")
-    landuse2binary_file(r"D:\Data\WRF-Chem_Files\Land_Use_Data\UCM_file\Landuse\Resample\22class_file\Tsinghua_1km_22class\120E_40N3.tif",
-                        r"D:\Data\WRF-Chem_Files\Land_Use_Data\UCM_file\Landuse\Resample\22class_file\Tsinghua_1km_22class\\")
+    #landuse2binary_file(r"D:\Data\WRF-Chem_Files\Land_Use_Data\UCM_file\Landuse\Resample\22class_file\Tsinghua_1km_22class\120E_40N3.tif",
+    #                    r"D:\Data\WRF-Chem_Files\Land_Use_Data\UCM_file\Landuse\Resample\22class_file\Tsinghua_1km_22class\\")
+    landuse2binary_file(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\6_Reprojection\lcz_reprojection.tif",
+                        r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\7_Binary\\")

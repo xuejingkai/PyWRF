@@ -97,6 +97,35 @@ colorbar_ticksize = 8  # 刻度字体大小
 drawedges_bool = 1  # 决定颜色边界是否要画上黑色的线条，0表示否，1表示是
 colorbar_ticklength = 0  # colorbar的tick突出长度，如果是0就是不突出
 
+# 绘制点
+dot_draw        = True   # 是否需要绘制点
+dot_x           = [120.8,121.0] # list形式写入点的x坐标
+dot_y           = [31.0,31.5]   # list形式写入点的y坐标
+dot_color       = ["black","gray"]     # list形式写入每个点的颜色
+dot_marker      = ["o","D"] # list形式写入每个点的形状
+dot_size        = [4,5] # list形式写入每个点的大小
+dot_label       = ["第一个","第二个"] # list形式写入每个点的标签
+dot_zorder      = 0.8 # 0~1的数值，决定了高低顺序
+
+# 绘制线
+line_draw        = True   # 是否需要绘制线
+line_x           = [[120.8,121.0]] # 二维list形式写入线的x坐标（始末）
+line_y           = [[31.0,31.5]]   # 二维list形式写入线的y坐标（始末）
+line_color       = ["green"]     # list形式写入每条线的颜色
+line_style       = ["-"] # list形式写入每条线的形状
+line_width       = [1] # list形式写入每条线的线宽
+line_zorder      = 0.5 # 0~1的数值，决定了高低顺序
+
+# 绘制标签
+legend_draw     = True # 是否需要绘制点的标签
+legend_loc      = "lower right" # 标签的位置,支持upper/lower/center+right/left/center,best
+x_anchor,y_anchor = 1.1,0.1     # 标签的偏离位置
+legend_title    = "标题" # 标签标题
+legend_markerscale     = 0.75  # 标签内的marker大小
+legend_labelspacing    = 1     # 标签内的空格大小
+legend_fonttype        = "../font/SimSun.ttf" # 输入字体ttf文件的地址
+legend_fontsize        = 8 #字体大小
+
 # 子图间距设置
 wspace, hspace = 0.0, 0.2  # 子图的横向间距和纵向间距
 

@@ -8,7 +8,7 @@ from wrf import getvar, to_np
 
 from lib.Geo_Draw import Figure4wrf
 from lib.Readtime import get_ncfile_time
-from namelist_plaindraw_example import *
+from namelist_plaindraw import *
 
 
 def create_title(title_base, title_end_type, num, ncfile, time_zone):
@@ -34,6 +34,7 @@ def create_title(title_base, title_end_type, num, ncfile, time_zone):
         raise Exception("title_end设置错误，请重新设置")
     return title
 
+
 def get_data_from_3Ddata(data, height):
     '''
     如果数据存在高度，则提取对应高度的数据
@@ -48,6 +49,7 @@ def get_data_from_3Ddata(data, height):
     else:
         print("数据为二维")
     return data
+
 
 def create_savepath(fig_path, fig_name_base, fig_name_end_type, num, ncfile, time_zone):
     '''
@@ -138,10 +140,25 @@ for fig_num in range(int(len(timelist) / num_in_fig)):
                             quiver_color, quiver_hw, quiver_alpha, quiverkey_opt, quiverkey_x, quiverkey_y,
                             quiverkey_ws, quiverkey_text, quiverkey_size, color_quiver=color_quiver,
                             color_maps=cmap_quiver, ws_map=ws_map)
+        # 绘制点与线
+        if dot_draw == True:
+            for i in range(len(dot_x)):
+                fig.dot_draw(dot_x[i], dot_y[i], color=dot_color[i], marker=dot_marker[i], markersize=dot_size[i],
+                             label=dot_label[i], zorder=dot_zorder)
+        if line_draw == True:
+            for i in range(len(line_x)):
+                fig.line_draw(line_x[i], line_y[i], color=line_color[i], linestyle=line_style[i],
+                              linewidth=line_width[i], zorder=line_zorder)
     # 绘制颜色图例
     fig.colorbar_draw(rect1, rect2, rect3, rect4, default_colorbar, hv_opt, colorbar_labeltext, colorbar_labelsize,
                       colorbar_ticksize, rectplace, rectextra, ticks=contourf_ticks, drawedges_bool=drawedges_bool,
                       colorbar_ticklength=colorbar_ticklength)
+    # 绘制标签
+    if legend_draw == True:
+        dots, labels = fig.get_lastaxe().get_legend_handles_labels()
+        fig.legend_draw(dots, labels, legend_loc, x_anchor, y_anchor, title=legend_title,
+                        markerscale=legend_markerscale,
+                        labelspacing=legend_labelspacing, fonttype=legend_fonttype, fontsize=legend_fontsize)
     # 调节子图间距
     fig.adjust_subplot(wspace, hspace)
     # 保存图片
