@@ -56,7 +56,7 @@ def draw_geogrid(file,var,level=None,cmap=cmaps.ncl_default):
 
 if __name__ == '__main__':
     #draw_geogrid(r"/home/fishercat/Build_WRF/Simulations/ucm_modified1/geo_em.d03.nc","HGT_M")
-    draw_geogrid(r"D:\Data\WRF-Chem_Files\WRF-Chem_Simulation\lcz_2\geo_em.d03.nc","LU_INDEX",
+    draw_geogrid(r"D:\Data\WRF-Chem_Files\WRF-Chem_Simulation\lcz_4\geo_em.d03.nc","LU_INDEX",
                  {1:"针叶林",2:"阔叶林",5:"混叶林",6:"封闭灌木丛",7:"开放灌木丛",10:"草地",11:"湿地",12:"耕地", 13:"城市", 14:"耕地植被"
                      ,15:"冰雪",16:"植被稀少的土地",17:"水",19:"荒原",
                   31:"紧凑高层",32:"紧凑中层",33:"紧凑低层",34:"开放高层",35:"开放中层",36:"开放低层",

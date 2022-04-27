@@ -35,9 +35,7 @@ xlabelsize  = 10    # x轴标签的字体大小
 
 # 绘制文件信息设置
 multi_file_draw = True      # 是否进行多文件绘制，需要与子图数对应，默认按照从左到右，从上到下的顺序排列
-path = [r'D:\Data\WRF-Chem_Files\WRF-Chem_Simulation\ucm_defaultParam\wrfout_d03_2016-07-21_00-00-00',
-        r'D:\Data\WRF-Chem_Files\WRF-Chem_Simulation\ucm_modifiedParam_1\wrfout_d03_2016-07-21_00-00-00',
-        r'D:\Data\WRF-Chem_Files\WRF-Chem_Simulation\ucm_modifiedParam_2\wrfout_d03_2016-07-21_00-00-00']  # 读取文件的路径
+path = [r'D:\Data\WRF-Chem_Files\WRF-Chem_Simulation\ucm_defaultParam\wrfout_d03_2016-07-21_00-00-00']  # 读取文件的路径
 contourf_opt    = 1         # 是否开启填充
 contour_opt     = 0         # 是否开启轮廓线绘制
 quiver_opt      = 1         # 是否开启箭头绘制

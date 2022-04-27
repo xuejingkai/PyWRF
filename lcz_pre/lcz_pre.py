@@ -1,7 +1,6 @@
 
 from osgeo import gdal
 import numpy as np
-from crop_tiff import get_array_type
 
 def lcz_pre(lcz,edtlcz):
     print(lcz+"开始修改")

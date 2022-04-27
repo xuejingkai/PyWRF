@@ -55,9 +55,9 @@ def resize_tiff(filename_base, outfilename):
     print("合并完成")
 
 if __name__ == '__main__':
-    resize_tiff(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\2_Prepare\4_resize\resize_L1TP_118038_20170402_b",
-                r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\2_Prepare\5_merge\merge_L1TP_118038_20170402.tif")
-    resize_tiff(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\2_Prepare\4_resize\resize_L1TP_119038_20170308_b",
-                r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\2_Prepare\5_merge\merge_L1TP_119038_20170308.tif")
-    resize_tiff(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\2_Prepare\4_resize\resize_L1TP_118039_20170402_b",
-                r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\2_Prepare\5_merge\merge_L1TP_118039_20170402.tif")
+    resize_tiff(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\2_Prepare\7_resize2\resize_L1TP_118038_20170402_b",
+                r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\2_Prepare\8_merge2\merge_L1TP_118038_20170402.tif")
+    resize_tiff(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\2_Prepare\7_resize2\resize_L1TP_119038_20170308_b",
+                r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\2_Prepare\8_merge2\merge_L1TP_119038_20170308.tif")
+    resize_tiff(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\2_Prepare\7_resize2\resize_L1TP_118039_20170402_b",
+                r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\2_Prepare\8_merge2\merge_L1TP_118039_20170402.tif")
