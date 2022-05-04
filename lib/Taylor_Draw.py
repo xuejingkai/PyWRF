@@ -1,4 +1,10 @@
-#代码库，不要修改
+# -*- coding: utf-8 -*-
+# @Author:  cat
+# @Date  :  2022-04-28 01:29:44
+# @Desc  :  代码库，尽量不要修改，用于Taylor图绘制
+#           参考文献：
+#           Taylor K E. Summarizing multiple aspects of model performance in a single diagram[J]. Journal of Geophysical Research: Atmospheres, 2001, 106(D7): 7183-7192.
+
 import netCDF4 as nc
 import matplotlib.pyplot as plt
 import cmaps
@@ -62,8 +68,8 @@ class Figure4wrf():
         self.axe.text(np.deg2rad(45), anglelabel_pad, s=Fontprocess.zhSimsun_enTNR(anglelabel), fontproperties=Simsun,
                       fontsize=anglelabel_size, ha='center', va='bottom', rotation=-45)
 
-    def marker_draw(self,R,RMSE,marker_type,marker_size,marker_color,label=None):
-        self.axe.plot(float(np.arccos(R)), 1+RMSE, marker_type,color=marker_color,markersize=marker_size, label=label)
+    def marker_draw(self,R,std_f,marker_type,marker_size,marker_color,label=None):
+        self.axe.plot(float(np.arccos(R)), std_f, marker_type,color=marker_color,markersize=marker_size, label=label)
 
     def text_draw(self,R,r,text,textsize):
         self.axe.text(np.arccos(R), r, s=Fontprocess.zhSimsun_enTNR(text),fontproperties=Simsun, fontsize=textsize)

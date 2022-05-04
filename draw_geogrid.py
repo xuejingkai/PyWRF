@@ -48,7 +48,7 @@ def draw_geogrid(file,var,level=None,cmap=cmaps.ncl_default):
     proxy = [plt.Rectangle((0, 0), 1, 1, fc=i) for i in cmap_list]
     l1=plt.legend(proxy, [level[i] for i in classification], loc="upper right", bbox_to_anchor=(1.3,1.1),labelspacing=1,
                prop=FontProperties(fname="./font/SimSun.ttf", size=12))
-    l2=plt.legend(loc="lower right",prop=FontProperties(fname="./font/SimSun.ttf", size=12),bbox_to_anchor=(1.212,0.00))
+    l2=plt.legend(loc="lower right",prop=FontProperties(fname="./font/SimSun.ttf", size=12),bbox_to_anchor=(1.22,-0.03))
     axe.add_artist(l1)
     ######################
     fig.show()
@@ -56,7 +56,7 @@ def draw_geogrid(file,var,level=None,cmap=cmaps.ncl_default):
 
 if __name__ == '__main__':
     #draw_geogrid(r"/home/fishercat/Build_WRF/Simulations/ucm_modified1/geo_em.d03.nc","HGT_M")
-    draw_geogrid(r"D:\Data\WRF-Chem_Files\WRF-Chem_Simulation\lcz_4\geo_em.d03.nc","LU_INDEX",
+    draw_geogrid(r"D:\Data\WRF-Chem_Files\WRF-Chem_Simulation\lcz_7\Final\geo_em.d03.nc","LU_INDEX",
                  {1:"针叶林",2:"阔叶林",5:"混叶林",6:"封闭灌木丛",7:"开放灌木丛",10:"草地",11:"湿地",12:"耕地", 13:"城市", 14:"耕地植被"
                      ,15:"冰雪",16:"植被稀少的土地",17:"水",19:"荒原",
                   31:"紧凑高层",32:"紧凑中层",33:"紧凑低层",34:"开放高层",35:"开放中层",36:"开放低层",

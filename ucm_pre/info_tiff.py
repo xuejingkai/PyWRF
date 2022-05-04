@@ -15,5 +15,6 @@ if __name__ == '__main__':
     #gettiffinfo(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\5_Resample\LCZC_resampled.tif")
     #gettiffinfo(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\7_Combine\tsinghua_2015_shanghai_100m_lcz_2_wgs84.tif")
     #gettiffinfo(r"D:\Data\WRF-Chem_Files\NDVI\FromLandsat8\ndvi_landsat8_resampled.tif")
-    gettiffinfo(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\5_Resample\LCZC_2_resampled.tif")
+    gettiffinfo(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\9_Anthro_heat\sh_lczc_100m_wgs84.tif")
+    gettiffinfo(r"D:\Data\WRF-Chem_Files\Population_Data\sh_landscan_2016_resampled.tif")
     #gettiffinfo(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\4_Mosaic\L2SP\mosaic_shanghai_20170402.tif")

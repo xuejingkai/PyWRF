@@ -3,7 +3,7 @@
 # @Date  : 2022-04-24 20:22:24
 # @Desc  : 计算各个分类的各种值，包括Albedo，emissivity，urban fraction
 
-from osgeo import gdal
+from osgeo import gdal,gdalconst
 import numpy as np
 
 def cal_class_albedo(lcz_path,bsa_shortwave_path,wsa_shortwave_path):
@@ -176,6 +176,77 @@ def cal_class_urbfrc(lcz_path,ndvi_path,ndwiflags_path):
                                                               np.sum(array_without99) / np.shape(array_without99)[0],
                                                               np.shape(array_without99)[0]))
 
+def cal_class_anthheat(poplationtiff,lcztiff):
+    '''
+    计算各个分区下的人为产数据，注意两个输入的tiff必须格点相同
+    @param poplationtiff: 人口数据
+    @param lcztiff: lcz的tiff文件
+    @return : None
+    '''
+    coal_all=11712.39
+    coal_industry=5740.55
+    ep_coal2j=29271 # epsilon_s
+    electricity_all=1486.02
+    electricity_industry=798.18
+    base_anthroheat=(coal_all-coal_industry)*ep_coal2j*10000*1000*1000/31536000/100/100+(electricity_all-electricity_industry)*100000000*1000/8760/100/100 # 非工业区的人工产热
+    ind_anthroheat=(coal_industry)*ep_coal2j*10000*1000*1000/31536000/100/100+(electricity_industry)*100000000*1000/8760/100/100 # 工业区的人工产热
+    person_anthroheat=(175*16.5+75*7.5)/24 # 每个人的平均产热
+
+    class_tiff=gdal.Open(lcztiff,gdalconst.GA_ReadOnly)
+    width,height=class_tiff.RasterXSize,class_tiff.RasterYSize
+    lcz_classification=class_tiff.GetRasterBand(1).ReadAsArray()
+    pop_tiff=gdal.Open(poplationtiff,gdalconst.GA_ReadOnly)
+    population_array = pop_tiff.GetRasterBand(1).ReadAsArray()
+    population_woind_array = population_array[np.where(np.logical_and(lcz_classification < 10, lcz_classification!=8))] # 筛选非工业区域与人居住区的人口
+    population_ind_array = population_array[np.where(np.logical_or(np.logical_or(lcz_classification == 8 , lcz_classification == 10),lcz_classification==105))] # 筛选工业区域的人口
+    pop_woind_sum=np.sum(np.float64(population_woind_array))
+    pop_ind_sum=np.sum(np.float64(population_ind_array))
+
+    ah_list = []
+    for i in range(11):
+        ah_list.append([])
+    print(width, height)
+    for row in range(height):
+        for col in range(width):
+            # 非工业区
+            if lcz_classification[row, col] < 8:
+                index = int(lcz_classification[row, col] - 1)
+                if population_array[row,col]>0:
+                    pop=population_array[row,col]
+                    ah_list[index].append(pop/pop_woind_sum*base_anthroheat+pop*person_anthroheat/100/100)
+            # 工业区
+            elif lcz_classification[row, col] == 8:
+                if population_array[row, col] >0:
+                    pop=population_array[row,col]
+                    ah_list[7].append(pop/pop_ind_sum*ind_anthroheat+pop*person_anthroheat/100/100)
+            # 非工业区
+            elif lcz_classification[row, col] == 9:
+                if population_array[row, col] >0:
+                    pop=population_array[row,col]
+                    ah_list[8].append(pop/pop_woind_sum*base_anthroheat+pop*person_anthroheat/100/100)
+            # 工业区
+            elif lcz_classification[row, col] == 10:
+                if population_array[row, col] >0:
+                    pop=population_array[row,col]
+                    ah_list[9].append(pop/pop_ind_sum*ind_anthroheat+pop*person_anthroheat/100/100)
+            # 工业区
+            elif lcz_classification[row, col] == 105:
+                if population_array[row, col] >0:
+                    pop=population_array[row,col]
+                    ah_list[10].append(pop/pop_ind_sum*ind_anthroheat+pop*person_anthroheat/100/100)
+
+        print(row / height)
+
+    for i in range(11):
+        list = ah_list[i]
+        array = np.array(list)
+        if np.shape(array)[0] == 0:
+            continue
+        else:
+            print("{}分类的平均anthropogenic heat值为：{},共有{}个值：".format(i + 1, np.sum(array) / np.shape(array)[0], np.shape(array)[0]))
+            array_without5 = array[np.where(array > np.percentile(array, 5))]
+            print("{}分类，去除最大值以后的平均emissivity值为：{},共有{}个值：".format(i + 1, np.sum(array_without5) / np.shape(array_without5)[0],np.shape(array_without5)[0]))
+
 if __name__=="__main__":
     sza_path = r"D:\Data\WRF-Chem_Files\Albedo\MCD43A2\MCD43A2.A2017094.mosaic.006.2022112105504.mcrpgs_000501768092.BRDF_Albedo_LocalSolarNoon-BRDF_Albedo_LocalSolarNoon.tif"
     bsa_shortwave_path = r"D:\Data\WRF-Chem_Files\Albedo\MCD43A3_BSA_shortwave_resample.tif"
@@ -187,7 +258,10 @@ if __name__=="__main__":
     lcz_path_hire = r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\4_LCZ_Shanghai\L1TP\version2\LCZC_2.tif"
     ndvi_path_hire=r"D:\Data\WRF-Chem_Files\NDVI\FromLandsat8\ndvi_landsat8_hire.tif"
     ndwiflags_path_hire=r"D:\Data\WRF-Chem_Files\NDVI\FromLandsat8\ndwiflag_landsat8_hire.tif"
+    population_path=r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\9_Anthro_heat\sh_landscan_2016_resampled.tif"
+    poplcz_path=r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\9_Anthro_heat\sh_lczc_100m_wgs84.tif"
     #cal_class_albedo(lcz_path,bsa_shortwave_path,wsa_shortwave_path)
     #cal_class_bbe(lcz_path,bbe_path)
-    cal_class_urbfrc(lcz_path,ndvi_path,ndwiflags_path)
+    #cal_class_urbfrc(lcz_path,ndvi_path,ndwiflags_path)
     #cal_class_urbfrc(lcz_path_hire,ndvi_path_hire,ndwiflags_path_hire)
+    cal_class_anthheat(population_path,poplcz_path)

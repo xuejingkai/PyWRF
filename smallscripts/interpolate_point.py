@@ -8,7 +8,7 @@ import numpy as np
 import netCDF4 as nc
 
 #下面修改路径
-path=r'D:\Data\WRF-Chem_Files\WRF-Chem_Simulation\lcz_6\wrfout_d03_2016-07-21'
+path=r'D:\Data\WRF-Chem_Files\WRF-Chem_Simulation\lcz_8\wrfout_d03_2016-07-21'
 
 #下面修改站点的纬度，经度，气象站点名字。气象站点名字可以带中文，主要就是为了excel表格的sheet书写
 #point_list=[(31.1,121.37,"58361闵行"),(31.39692,121.45454,"58362宝山"),(31.37,121.25,"58365嘉定"),(31.67,121.50,"58366崇明"),
@@ -68,7 +68,7 @@ for i in range(0,Readtime.get_ncfile_alltime(ncfile),timestep):
         worksheet.cell(int(i/timestep+2),9,float_hfx)
         worksheet.cell(int(i/timestep+2),10,float_grdflx)
 wb.remove(wb['Sheet'])
-wb.save("气象信息-站点插值-lcz6.xlsx")
+wb.save("气象信息-站点插值-lcz8.xlsx")
 
 
 

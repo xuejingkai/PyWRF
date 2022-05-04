@@ -1,11 +1,9 @@
+from osgeo import gdal
 import numpy as np
-import matplotlib.pyplot as plt
-x, y = np.meshgrid(np.arange(10),np.arange(10))
-z = np.sqrt(x**2 + y**2)
-cs = plt.contourf(x,y,z,levels=[2,3,4,8])
 
-proxy = [plt.Rectangle((0,0),1,1,fc = pc.get_facecolor()[0])
-    for pc in cs.collections]
 
-plt.legend(proxy, ["range(2-3)", "range(3-4)", "range(4-6)"])
-plt.show()
+tiff=gdal.Open(r"D:\Data\WRF-Chem_Files\Population_Data\sh_ghspop_2015.tif")
+tiff=gdal.Open(r"D:\Data\WRF-Chem_Files\Land_Use_Data\LCZ_Shanghai\Landset8\9_Anthro_heat\sh_landscan_2016.tif")
+data = tiff.GetRasterBand(1).ReadAsArray()
+#data=np.float64(data)
+print(np.max(data)/np.sum(data))
