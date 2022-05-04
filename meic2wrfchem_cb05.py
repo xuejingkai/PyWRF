@@ -19,6 +19,7 @@ my_dirname, my_filename = os.path.split(os.path.abspath(sys.argv[0]))
 CB05_DIR = "/home/fishercat/Build_WRF/PreChem/MEIC-2016-CB05-Section"    #meic cb05文件存储路径。内部为YYYYMM的文件夹，文件夹内存放每个月都meic排放源文件
 wrfinput_file = "/home/fishercat/Build_WRF/Examples/test/wrfinput_d01"   #wrfinput文件位置
 wrfchemi_save_dir = "/home/fishercat/Build_WRF/PreChem/MEIC_temp"   #wrfchemi文件存放目录
+hour_step = 12
 
 
 # meic经纬度,格点的位于每个网格的中心点
@@ -370,7 +371,7 @@ def parallel_make_wrfchemi(start_time,end_time,n_jobs=-1):
     timelist=[]   #需要生成排放源的时次(utc)
     while start_time <= end_time:
         timelist.append(start_time)
-        start_time +=  timedelta(hours=6)   #里的hours用来修改输出文件的小时间隔
+        start_time +=  timedelta(hours=hour_step)   #里的hours用来修改输出文件的小时间隔
 
     if n_jobs == -1:
         n_jobs = multiprocessing.cpu_count()
